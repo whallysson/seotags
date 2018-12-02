@@ -1,0 +1,32 @@
+{
+    "name": "codeblog/seotags",
+    "description": "Seotags makes it easy to tag your site and social media tags!",
+    "keywords": [
+        "CodeBlog",
+        "Seo",
+        "Tags",
+        "Meta Tags",
+        "Meta",
+        "Open Graph",
+        "Twitter Card",
+        "Facebook Tags"
+    ],
+    "homepage": "http://www.codeblog.com.br",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Whallysson Avelino",
+            "email": "whallyssonallain@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "ext-simplexml": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeBlog\\Seotags\\": "src"
+        }
+    }
+}
