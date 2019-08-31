@@ -53,29 +53,22 @@ class Seotags extends MetaTags {
     }
 
     /**
-     * @param string $fbPage
-     * @param string $fbAuthor
-     * @param string $plusPage
-     * @param string|null $plusAuthor
+     * @param string $facebook_page
+     * @param string|null $facebook_author
      * @return Seotags
      */
     public function publisher(
-        string $fbPage,
-        string $fbAuthor,
-        string $plusPage,
-        string $plusAuthor = null
+        string $facebook_page,
+        string $facebook_author = null
     ): Seotags {
         $this->buildMeta("property", [
-            "article:author" => "https://www.facebook.com/{$fbAuthor}",
-            "article:publisher" => "https://www.facebook.com/{$fbPage}",
+            "article:publisher" => "https://www.facebook.com/{$facebook_page}",
         ]);
 
-        if ($plusAuthor) {
-            $this->buildLink("author", "https://plus.google.com/{$plusAuthor}");
-        }
-
-        if ($plusPage) {
-            $this->buildLink("publisher", "https://plus.google.com/{$plusPage}");
+        if ($facebook_author) {
+            $this->buildMeta("property", [
+                "article:author" => "https://www.facebook.com/{$facebook_author}"
+            ]);
         }
 
         return $this;
@@ -155,10 +148,6 @@ class Seotags extends MetaTags {
      * @param string $site
      * @param string $domain
      * @param string|null $card
-     * @param string $title
-     * @param string $description
-     * @param string $url
-     * @param string $image
      * @return Seotags
      */
     public function twitterCard(
@@ -168,13 +157,12 @@ class Seotags extends MetaTags {
         string $card = null
     ): Seotags {
         $prefix = "twitter";
-        $card = ($card ?? "summary_large_image");
 
         $this->buildMeta("name", [
             "{$prefix}:creator" => $creator,
             "{$prefix}:site" => $site,
             "{$prefix}:domain" => $domain,
-            "{$prefix}:card" => $card,
+            "{$prefix}:card" => ($card ?? "summary_large_image")
         ]);
 
         return $this;
@@ -188,17 +176,18 @@ class Seotags extends MetaTags {
      * @return Seotags
      */
     public function facebook(string $appId = null, string $pages = null, array $admins = null): Seotags {
-        if ($appId) {
-            $fb = $this->meta->addChild("meta");
-            $fb->addAttribute("property", "fb:app_id");
-            $fb->addAttribute("content", $appId);
-        }
-
         if ($pages) {
             $fb = $this->meta->addChild("meta");
             $fb->addAttribute("property", "fb:pages");
             $fb->addAttribute("content", $pages);
         }
+        
+        if ($appId) {
+            $fb = $this->meta->addChild("meta");
+            $fb->addAttribute("property", "fb:app_id");
+            $fb->addAttribute("content", $appId);
+            return $this;
+        }        
 
         if ($admins) {
             foreach ($admins as $admin) {
