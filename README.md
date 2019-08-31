@@ -128,10 +128,6 @@ echo $op->seotags(
 <meta name="description" content="Seotags makes it easy to tag your site and social media tags">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://codeblog.com.br">
-<meta property="og:title" content="SeoTags Hello World">
-<meta property="og:description" content="Seotags makes it easy to tag your site and social media tags">
-<meta property="og:url" content="https://codeblog.com.br">
-<meta property="og:image" content="https://www.codeblog.com.br/themes/codeblog/images/default.jpg">
 <meta name="twitter:title" content="SeoTags Hello World">
 <meta name="twitter:description" content="Seotags makes it easy to tag your site and social media tags">
 <meta name="twitter:url" content="https://codeblog.com.br">
