@@ -95,24 +95,28 @@ class Seotags extends MetaTags {
         ]);
 
         if (isset($this->data->title)) {
+            $this->removeChild("{$prefix}:title");
             $og = $this->meta->addChild("meta");
             $og->addAttribute("property", "{$prefix}:title");
             $og->addAttribute("content", $this->data->title);
         }
 
         if (isset($this->data->description)) {
+            $this->removeChild("{$prefix}:description");
             $og = $this->meta->addChild("meta");
             $og->addAttribute("property", "{$prefix}:description");
             $og->addAttribute("content", $this->data->description);
         }
 
         if (isset($this->data->url)) {
+            $this->removeChild("{$prefix}:url");
             $og = $this->meta->addChild("meta");
             $og->addAttribute("property", "{$prefix}:url");
             $og->addAttribute("content", $this->data->url);
         }
 
         if (isset($this->data->image)) {
+            $this->removeChild("{$prefix}:image");
             $this->buildMeta("property", [
                 "{$prefix}:image" => $this->data->image,
                 "{$prefix}:secure_url" => $this->data->image,
@@ -212,12 +216,23 @@ class Seotags extends MetaTags {
         return $this;
     }
 
+    /**
+     * @param string $child
+     */
+    private function removeChild(string $child): void {
+        foreach ($this->meta->meta as $meta) {
+            if ($meta['property'] == $child) {
+                $dom = dom_import_simplexml($meta);
+                $dom->parentNode->removeChild($dom);
+            }
+        }
+    }
 
     /**
      * @param $url
      * @return bool
      */
-    public function fileExists($url): bool {
+    private function fileExists($url): bool {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
