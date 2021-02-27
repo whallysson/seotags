@@ -49,6 +49,8 @@ class Seotags extends MetaTags {
             "image" => $image,
         ]);
 
+        $this->image($image);
+
         return $this;
     }
 
@@ -122,9 +124,43 @@ class Seotags extends MetaTags {
                 "{$prefix}:secure_url" => $this->data->image,
             ]);
 
-
             if ($this->fileExists($this->data->image)) {
                 $OgImage = getimagesize($this->data->image);
+
+                if ($OgImage['mime']) {
+                    $og = $this->meta->addChild("meta");
+                    $og->addAttribute("property", "{$prefix}:image:type");
+                    $og->addAttribute("content", $OgImage['mime']);
+                }
+                if ($OgImage[0]) {
+                    $og = $this->meta->addChild("meta");
+                    $og->addAttribute("property", "{$prefix}:image:width");
+                    $og->addAttribute("content", $OgImage[0]);
+                }
+                if ($OgImage[1]) {
+                    $og = $this->meta->addChild("meta");
+                    $og->addAttribute("property", "{$prefix}:image:height");
+                    $og->addAttribute("content", $OgImage[1]);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    public function image(string $image = null): Seotags
+    {
+        if (!empty($image)) {
+            $prefix = "og";
+
+            $this->removeChild("{$prefix}:image");
+            $this->buildMeta("property", [
+                "{$prefix}:image" => $image,
+                "{$prefix}:secure_url" => $image,
+            ]);
+
+            if ($this->fileExists($image)) {
+                $OgImage = getimagesize($image);
 
                 if ($OgImage['mime']) {
                     $og = $this->meta->addChild("meta");
